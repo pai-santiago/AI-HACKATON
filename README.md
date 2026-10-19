@@ -97,3 +97,5 @@ Después de conectar GitHub, cada push a main genera un despliegue de producció
 El cliente está listo en src/lib/supabase.ts; el proyecto remoto dedicado ya existe. El repo incluye una migración de prueba M1 con dos tablas relacionadas, RLS y datos sintéticos para desarrollo local. No se aplica automáticamente al proyecto remoto.
 
 Lee [supabase/README.md](supabase/README.md) y [docs/DATABASE_WORKFLOW.md](docs/DATABASE_WORKFLOW.md) antes de configurar accesos, ejecutar migraciones o añadir tablas. La conexión administrativa disponible en esta sesión apunta a otro proyecto; por seguridad no se ha modificado ninguna base remota.
+
+Para invitar a cada persona y configurar su `.env.local` paso a paso, sigue [docs/ACCESO_SUPABASE.md](docs/ACCESO_SUPABASE.md). Cada integrante necesita una invitación individual de Supabase y, si hará push, otra invitación de colaborador en GitHub.
