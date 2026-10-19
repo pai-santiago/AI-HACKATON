@@ -50,6 +50,8 @@ Empieza por la [guía oficial de React](https://react.dev/learn), la [guía de V
 
 La rutina del equipo para permisos, migraciones y pruebas locales está en [docs/DATABASE_WORKFLOW.md](docs/DATABASE_WORKFLOW.md).
 
+Todo pull request que cambia el esquema de Supabase debe incluir una migración nueva en el mismo PR. GitHub Actions verifica la declaración, el archivo SQL y que las migraciones se apliquen a una base temporal; consulta la [regla obligatoria de migraciones](docs/DATABASE_WORKFLOW.md#regla-obligatoria-para-pull-requests).
+
 El flujo de vistas previas, producción, despliegues manuales y el requisito de Docker está en [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## Comandos

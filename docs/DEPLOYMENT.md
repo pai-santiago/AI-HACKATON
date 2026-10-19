@@ -16,7 +16,7 @@
 4. Revisa la vista previa del cambio antes de integrar.
 5. Integra el pull request solo después de la revisión del equipo y de que CI esté verde. La integración a `main` es el paso que publica el cambio en producción cuando el proyecto tiene conectada la integración de GitHub con Vercel.
 
-No hagas push directo a `main` para cambios normales. Para una emergencia, acuerda explícitamente el cambio con Santiago y revisa el estado de CI y Vercel después. GitHub Actions ejecuta los chequeos, pero hoy la rama `main` no tiene protección configurada; por lo tanto, usar PR y esperar CI verde es un acuerdo del equipo, no un bloqueo automático. Si quieren impedir merges directos, Santiago puede agregar una regla en **Settings → Branches/Rulesets** que requiera pull request y los chequeos de CI.
+No hagas push directo a `main` para cambios normales. `main` requiere un pull request y los chequeos `Migration policy`, `Validate database migrations` y `Lint and build` deben pasar antes de integrar.
 
 ## Qué despliega Vercel
 
