@@ -10,15 +10,88 @@ permissions:
   contents: read
 
 jobs:
+  migration-policy:
+    name: Migration policy
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Require a database declaration and a new migration when needed
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          git fetch --no-tags origin "$BASE_REF"
+          python - <<'PY'
+          import os
+          import re
+          import subprocess
+          import sys
+
+          body = os.environ.get("PR_BODY", "")
+          base_ref = os.environ["BASE_REF"]
+          no_database_change = bool(re.search(
+              r"(?im)^\s*-\s*\[x\]\s*`NO_DATABASE_CHANGE`", body
+          ))
+          database_migration_included = bool(re.search(
+              r"(?im)^\s*-\s*\[x\]\s*`DATABASE_MIGRATION_INCLUDED`", body
+          ))
+
+          if no_database_change == database_migration_included:
+              sys.exit(
+                  "Select exactly one database option in the PR description: "
+                  "NO_DATABASE_CHANGE or DATABASE_MIGRATION_INCLUDED."
+              )
+
+          diff = subprocess.check_output(
+              ["git", "diff", "--name-status", "--find-renames",
+               f"origin/{base_ref}...HEAD", "--", "supabase/migrations"],
+              text=True,
+          )
+          added_sql = []
+          changed_existing = []
+          for line in diff.splitlines():
+              status, *paths = line.split("\t")
+              if status == "A":
+                  added_sql.extend(path for path in paths if path.endswith(".sql"))
+              else:
+                  changed_existing.extend(paths)
+
+          if changed_existing:
+              sys.exit(
+                  "Do not edit, rename, or delete existing migration files. "
+                  "Add a new timestamped migration instead: "
+                  + ", ".join(changed_existing)
+              )
+
+          if database_migration_included and not added_sql:
+              sys.exit(
+                  "This PR declares a database change but adds no new SQL file "
+                  "under supabase/migrations/. Add the migration in this same PR."
+              )
+
+          if no_database_change and added_sql:
+              sys.exit(
+                  "This PR adds a migration but declares NO_DATABASE_CHANGE. "
+                  "Select DATABASE_MIGRATION_INCLUDED and describe the change."
+              )
+
+          print("Database declaration and migration file are consistent.")
+          PY
+
   quality:
     name: Lint and build
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
@@ -37,10 +110,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm

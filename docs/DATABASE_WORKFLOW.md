@@ -7,13 +7,25 @@
 - La clave publishable solo identifica a la app web. Las políticas RLS determinan quién puede leer o cambiar filas. Nunca pongas claves privilegiadas en `VITE_*`, React o Git.
 - El repo es público, así que `.env.local` y cualquier archivo de credenciales no se suben. `.env.example` contiene solo nombres de variables vacías.
 
+## Regla obligatoria para pull requests
+
+Todo cambio que requiera crear, cambiar o retirar objetos de la base debe incluir una migración SQL nueva en `supabase/migrations/` dentro del mismo pull request. Esto incluye tablas, columnas, relaciones, restricciones, índices, funciones, triggers, grants y políticas RLS. El código de la app que usa esos objetos debe ir junto con la migración que los crea o modifica.
+
+- No integres un cambio de esquema si su pull request no incluye la migración correspondiente.
+- No edites ni borres una migración que ya se integró a `main`; crea otra migración con un timestamp posterior.
+- Si el pull request no cambia el esquema, marca `NO_DATABASE_CHANGE` y explica por qué en la plantilla.
+- CI exige exactamente una de esas declaraciones. Si se marca que hay un cambio de base de datos, CI exige al menos un archivo SQL nuevo en `supabase/migrations/`. CI también rechaza modificar o borrar migraciones existentes.
+- La rama `main` requiere pull request y que pasen los chequeos `Migration policy`, `Validate database migrations` y `Lint and build`.
+
+La declaración del pull request debe coincidir con lo que realmente hace el código. Quien revise debe comprobar si los cambios de la app dependen de una tabla, columna, política u otro objeto nuevo; no basta con marcar “sin cambio” para pasar CI.
+
 ## Dos tipos de acceso
 
 ### A. Cambiar el esquema
 
 Los cambios de tablas, columnas, relaciones, índices, funciones y políticas se hacen en migraciones SQL dentro de `supabase/migrations/`. Cada persona crea la migración en su rama, la prueba localmente y abre un pull request. Nadie modifica el esquema remoto desde Table Editor o SQL Editor como flujo normal.
 
-Solo Santiago integra y aplica migraciones al proyecto remoto, después de revisión y de comprobar que el `project ref` enlazado sea el del proyecto AI-HACKATON. Ejecuta primero `supabase db push --dry-run` y luego `supabase db push`. Nunca ejecutes `supabase db reset --linked`: eso borra y reconstruye el esquema remoto.
+El pull request y el deploy de Vercel **no aplican migraciones al Supabase remoto**. CI solo las aplica a una base temporal, aislada y desechable. Después de integrar el pull request, Santiago coordina la aplicación al proyecto remoto: comprueba que el `project ref` sea el de AI-HACKATON, ejecuta `supabase db push --dry-run`, revisa el plan y luego ejecuta `supabase db push`. Nunca ejecutes `supabase db reset --linked`: eso borra y reconstruye el esquema remoto.
 
 ### B. Cambiar filas desde la aplicación
 
@@ -49,7 +61,7 @@ Sustituye los tres valores localmente. El SQL Editor debe estar abierto en AI-HA
 
 ## Mapa M1–M5
 
-Las siglas M1–M5 asignan responsabilidad y orden de trabajo; **no son el número técnico de la migración**. Supabase ordena y registra archivos por su prefijo timestamp, que se genera con `supabase migration new`.
+Las siglas M1–M5 asignan responsabilidad y orden de trabajo; **no son el número técnico de la migración**. Supabase ordena y registra archivos por su prefijo timestamp, que se genera con `supabase migration new`. Una migración nueva siempre viaja en el mismo pull request que el código que depende de ella.
 
 | Clave | Responsable | Alcance |
 | --- | --- | --- |
@@ -63,7 +75,7 @@ M2–M4 se asignan al autor del cambio real; no se inventarán tablas de negocio
 
 ## Rutina local
 
-Requisitos: Node.js 22.12 o posterior y Docker Desktop (o un runtime compatible con Docker). La CLI de Supabase está fijada en `package.json` para que todo el equipo use la misma versión.
+Requisitos para trabajar en la app: Node.js 22.12 o posterior y npm. No necesitas Docker para React, lint, build ni Vercel. Para iniciar la instancia Supabase local y ejecutar `npm run db:*`, instala Docker Desktop (recomendado en Windows y Linux) u otro runtime compatible con la API de Docker. La CLI de Supabase está fijada en `package.json` para que todo el equipo use la misma versión.
 
 ~~~sh
 npm ci

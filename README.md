@@ -50,6 +50,10 @@ Empieza por la [guía oficial de React](https://react.dev/learn), la [guía de V
 
 La rutina del equipo para permisos, migraciones y pruebas locales está en [docs/DATABASE_WORKFLOW.md](docs/DATABASE_WORKFLOW.md).
 
+Todo pull request que cambia el esquema de Supabase debe incluir una migración nueva en el mismo PR. GitHub Actions verifica la declaración, el archivo SQL y que las migraciones se apliquen a una base temporal; consulta la [regla obligatoria de migraciones](docs/DATABASE_WORKFLOW.md#regla-obligatoria-para-pull-requests).
+
+El flujo de vistas previas, producción, despliegues manuales y el requisito de Docker está en [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
 ## Comandos
 
 ~~~sh
@@ -83,14 +87,7 @@ Consulta [CONTRIBUTING.md](CONTRIBUTING.md) para los comandos del flujo y [docs/
 
 ## Vercel
 
-El repositorio ya incluye vercel.json con el comando de instalación y build, y el directorio de salida. Para activar despliegues:
-
-1. En Vercel, crea un proyecto nuevo e importa este repositorio de GitHub.
-2. Deja main como **Production Branch** y el directorio raíz como **./**.
-3. Añade las variables de entorno de Supabase si el proyecto ya está creado.
-4. Despliega.
-
-Después de conectar GitHub, cada push a main genera un despliegue de producción y cada pull request puede generar una vista previa. La conexión y el primer despliegue se completan desde la cuenta de Vercel.
+El proyecto `ai-hackaton` está enlazado a la CLI, su integración de GitHub registra despliegues de Vercel y su URL de producción es <https://ai-hackaton-bay.vercel.app>. Las ramas y pull requests generan vistas previas; los merges a `main` publican producción. Revisa [la metodología completa de deploy](docs/DEPLOYMENT.md).
 
 ## Supabase
 
