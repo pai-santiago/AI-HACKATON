@@ -4,7 +4,7 @@
 
 ## Base de datos — obligatorio
 
-Marca exactamente una opción. CI rechaza el PR si falta esta declaración o si la opción no coincide con los archivos de migración.
+Marca exactamente una opción. CI falla y GitHub bloquea la integración a `main` si falta la declaración o si no coincide con los archivos de migración.
 
 - [ ] `NO_DATABASE_CHANGE` — Este PR no modifica tablas, columnas, relaciones, índices, funciones, triggers, permisos o políticas RLS.
 - [ ] `DATABASE_MIGRATION_INCLUDED` — Este PR modifica la base de datos e incluye una migración SQL nueva en `supabase/migrations/`.
