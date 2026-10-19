@@ -16,8 +16,8 @@ main { margin: 0 auto; max-width: 1240px; padding: 0 34px; }
 .eyebrow { align-items: center; color: #6a7068; display: flex; font-size: 9px; font-weight: 750; gap: 9px; letter-spacing: .14em; margin: 0 0 22px; }
 .live-dot, .ready-dot { background: #8aa93f; border-radius: 50%; display: inline-block; height: 7px; width: 7px; }
 .eyebrow-separator { color: #b6b8ae; padding: 0 3px; }
-.hero h1 { color: var(--ink); font-size: clamp(48px, 6.2vw, 78px); font-weight: 550; letter-spacing: -.075em; line-height: .98; margin: 0; }
-.hero h1 span { color: #898d7d; }
+.hero h1 { color: #1d4ed8; font-size: clamp(48px, 6.2vw, 78px); font-weight: 550; letter-spacing: -.075em; line-height: .98; margin: 0; }
+.hero h1 span { color: #2563eb; }
 .hero-description { color: #777c73; font-size: 14px; line-height: 1.85; margin: 23px 0 26px; max-width: 460px; }
 .button { align-items: center; display: inline-flex; gap: 15px; text-decoration: none; transition: transform .2s ease, background .2s ease; }
 .button:hover { transform: translateY(-2px); }
