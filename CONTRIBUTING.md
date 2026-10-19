@@ -9,9 +9,11 @@ npm ci
 npm run dev
 ~~~
 
-Crea .env.local a partir de .env.example si ya tienes acceso al proyecto Supabase. No compartas ese archivo.
+Crea .env.local a partir de .env.example si ya tienes acceso al proyecto Supabase. No compartas ese archivo. Docker no es necesario para trabajar en React o desplegar la app.
 
-Para trabajar localmente con la base de datos, instala Docker Desktop y sigue [docs/DATABASE_WORKFLOW.md](docs/DATABASE_WORKFLOW.md). Las migraciones se crean en ramas y se proponen por pull request; no alteres el esquema remoto desde el panel.
+Docker Desktop (o un runtime compatible) solo hace falta si vas a ejecutar la base Supabase local con los comandos `npm run db:*`. Si solo vas a trabajar en la interfaz web o usar la app conectada a Supabase remoto, puedes trabajar sin Docker. Para trabajar localmente con la base, sigue [docs/DATABASE_WORKFLOW.md](docs/DATABASE_WORKFLOW.md). Las migraciones se crean en ramas y se proponen por pull request; no alteres el esquema remoto desde el panel.
+
+Consulta [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) para ver cuándo se crean despliegues Preview y Production y cómo publicar con la CLI.
 
 ## Cada cambio
 

@@ -63,7 +63,7 @@ M2–M4 se asignan al autor del cambio real; no se inventarán tablas de negocio
 
 ## Rutina local
 
-Requisitos: Node.js 22.12 o posterior y Docker Desktop (o un runtime compatible con Docker). La CLI de Supabase está fijada en `package.json` para que todo el equipo use la misma versión.
+Requisitos para trabajar en la app: Node.js 22.12 o posterior y npm. No necesitas Docker para React, lint, build ni Vercel. Para iniciar la instancia Supabase local y ejecutar `npm run db:*`, instala Docker Desktop (recomendado en Windows y Linux) u otro runtime compatible con la API de Docker. La CLI de Supabase está fijada en `package.json` para que todo el equipo use la misma versión.
 
 ~~~sh
 npm ci
