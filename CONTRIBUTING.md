@@ -3,7 +3,7 @@
 ## Preparar el entorno
 
 ~~~sh
-git clone https://github.com/pai-santiago/REPO-PRUEBA.git AI-HACKATON
+git clone https://github.com/pai-santiago/AI-HACKATON.git AI-HACKATON
 cd AI-HACKATON
 npm ci
 npm run dev

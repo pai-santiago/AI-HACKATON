@@ -28,3 +28,8 @@ dist-ssr
 .env.*
 !.env.example
 .vercel
+
+# Unused files from the starter template
+src/assets/
+public/icons.svg
+public/vite.svg
