@@ -1,13 +1,21 @@
 # Supabase
 
-Este directorio está reservado para configuración y migraciones de la base de datos de este hackathon. No hay un proyecto remoto ni un esquema de aplicación creado todavía.
+Esta carpeta contiene el esquema reproducible del proyecto AI-HACKATON. Lee primero [el flujo de base de datos del equipo](../docs/DATABASE_WORKFLOW.md).
 
-## Conectar el cliente
+## Archivos
 
-Crea un proyecto dedicado en Supabase. Guarda su Project URL y publishable key en .env.local con los nombres de .env.example, y en Vercel en los entornos Development, Preview y Production.
+- `config.toml`: configuración local generada por Supabase CLI.
+- `migrations/`: cambios SQL ordenados por timestamp y versionados en Git.
+- `seed.sql`: datos ficticios que solo se cargan al reconstruir la base local.
 
-El frontend puede usar la publishable key porque es pública por diseño. No uses service_role en React, Vite, variables VITE_* ni commits. Antes de crear tablas, habilita Row Level Security y define políticas que limiten qué usuarios pueden leer o modificar datos.
+## Seguridad y conexión
 
-## Migraciones
+El frontend usa `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY` desde `.env.local` y Vercel. No agregues `secret`, `service_role`, contraseñas de Postgres ni tokens al frontend, a variables `VITE_*` o al repo. Las tablas de prueba exigen una sesión de Auth y una fila autorizada en `hackathon_team_members`; las políticas RLS niegan acceso a `anon`.
 
-Cuando se acuerde el modelo de datos, guarda cada cambio de esquema como SQL versionado en migrations/, con nombres consecutivos y descriptivos. Evita crear tablas antes de conocer los datos que requiere el reto.
+No asumas que el proyecto vinculado por la CLI o por una integración es el correcto. Compara siempre el project ref con el proyecto AI-HACKATON y confirma que sea distinto de Prospectum MIAI antes de hacer cualquier cambio remoto.
+
+## Trabajo local
+
+Instala Docker Desktop y usa `npm run db:start`, `npm run db:reset` y `npm run db:lint`. `db:reset` es local y destructivo solo para la instancia local. El seed no se publica con `db push`.
+
+Las migraciones se proponen por pull request. Tras la revisión, Santiago es el único responsable de aplicar migraciones al proyecto remoto, primero con `supabase db push --dry-run` y luego con `supabase db push`.

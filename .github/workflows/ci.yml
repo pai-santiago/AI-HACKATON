@@ -31,3 +31,37 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  database:
+    name: Validate database migrations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start isolated local Supabase stack
+        shell: bash
+        run: |
+          npx supabase start > /tmp/supabase-start.log 2>&1 || {
+            sed -E 's/(sb_(secret|publishable)_[A-Za-z0-9_-]+)/[REDACTED]/g; s/(eyJ[A-Za-z0-9._-]+)/[REDACTED]/g' /tmp/supabase-start.log
+            exit 1
+          }
+
+      - name: Apply migrations and synthetic seed locally
+        run: npm run db:reset
+
+      - name: Lint local database schema
+        run: npm run db:lint
+
+      - name: Stop isolated local Supabase stack
+        if: always()
+        run: npx supabase stop --no-backup

@@ -14,7 +14,7 @@ Base compartida para construir el sitio web del hackathon. El reto todavía no e
 - React 19 con TypeScript
 - Vite 8 para desarrollo y compilación
 - Oxlint para revisar el código
-- Supabase JS para conectar una base de datos cuando creemos el proyecto
+- Supabase JS y Supabase CLI para la app y las migraciones de base de datos
 - Vercel para previews y producción desde GitHub
 
 El código del navegador solo debe usar la URL del proyecto y su clave publishable de Supabase. Nunca agregues una clave **service_role** al frontend.
@@ -28,12 +28,11 @@ npm ci
 npm run dev
 ~~~
 
-Abre la URL que muestra Vite (por defecto http://localhost:5173). Antes de iniciar el trabajo con Supabase:
+Abre la URL que muestra Vite (por defecto http://localhost:5173). Para usar el proyecto Supabase dedicado del hackathon:
 
-1. Crea un proyecto nuevo y dedicado en Supabase para este hackathon.
-2. Copia .env.example como .env.local.
-3. Completa VITE_SUPABASE_URL y VITE_SUPABASE_PUBLISHABLE_KEY con los datos de ese proyecto.
-4. Carga las mismas variables en Vercel para Development, Preview y Production.
+1. Copia .env.example como .env.local.
+2. Completa VITE_SUPABASE_URL y VITE_SUPABASE_PUBLISHABLE_KEY con los datos del proyecto AI-HACKATON.
+3. Carga las mismas variables en Vercel para Development, Preview y Production.
 
 En PowerShell puedes copiar el archivo de entorno con **Copy-Item .env.example .env.local**; en macOS o Linux, usa **cp .env.example .env.local**.
 
@@ -48,6 +47,8 @@ En PowerShell puedes copiar el archivo de entorno con **Copy-Item .env.example .
 - **Composición:** arma pantallas con componentes pequeños en vez de hacer un componente gigante.
 
 Empieza por la [guía oficial de React](https://react.dev/learn), la [guía de Vite](https://vite.dev/guide/) y el [tutorial React de Supabase](https://supabase.com/docs/guides/getting-started/tutorials/with-react).
+
+La rutina del equipo para permisos, migraciones y pruebas locales está en [docs/DATABASE_WORKFLOW.md](docs/DATABASE_WORKFLOW.md).
 
 ## Comandos
 
@@ -93,6 +94,6 @@ Después de conectar GitHub, cada push a main genera un despliegue de producció
 
 ## Supabase
 
-El cliente está listo en src/lib/supabase.ts y la plantilla de variables en .env.example. El proyecto remoto todavía debe crearse en la cuenta de Supabase del equipo. Define sus tablas y políticas de Row Level Security cuando se conozca el reto; cada cambio de esquema debe quedar en supabase/migrations/.
+El cliente está listo en src/lib/supabase.ts; el proyecto remoto dedicado ya existe. El repo incluye una migración de prueba M1 con dos tablas relacionadas, RLS y datos sintéticos para desarrollo local. No se aplica automáticamente al proyecto remoto.
 
-Consulta [supabase/README.md](supabase/README.md) antes de configurar credenciales o añadir tablas.
+Lee [supabase/README.md](supabase/README.md) y [docs/DATABASE_WORKFLOW.md](docs/DATABASE_WORKFLOW.md) antes de configurar accesos, ejecutar migraciones o añadir tablas. La conexión administrativa disponible en esta sesión apunta a otro proyecto; por seguridad no se ha modificado ninguna base remota.
