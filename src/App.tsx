@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import MomioLab from './MomioLab'
 import './App.css'
 
 const team = [
@@ -31,6 +33,10 @@ function SparkIcon() {
 }
 
 function App() {
+  const [page, setPage] = useState<'home' | 'momiolab'>('momiolab')
+
+  if (page === 'momiolab') return <MomioLab onBack={() => setPage('home')} />
+
   return (
     <div className="site-shell">
       <header className="topbar">
@@ -42,6 +48,7 @@ function App() {
         <nav className="top-nav" aria-label="Navegación principal">
           <a href="#equipo">El equipo</a>
           <a href="#plan">Plan de arranque</a>
+          <button className="momio-nav-button" onClick={() => setPage('momiolab')}>⚽ MomioLab</button>
           <a className="nav-link" href="https://react.dev/learn" target="_blank" rel="noreferrer">
             Guía React <ArrowIcon />
           </a>

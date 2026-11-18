@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "MomioLab: iniciar CLI interactiva",
+      "type": "shell",
+      "command": "npm run momio:cli",
+      "problemMatcher": [],
+      "presentation": { "panel": "dedicated", "clear": false }
+    },
+    {
+      "label": "MomioLab: ver predicción de ejemplo",
+      "type": "shell",
+      "command": "npm run momio:demo",
+      "problemMatcher": [],
+      "presentation": { "panel": "dedicated", "clear": false }
+    }
+  ]
+}

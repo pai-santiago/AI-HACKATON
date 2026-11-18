@@ -11,7 +11,9 @@
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset --local",
-    "db:lint": "supabase db lint --local --schema public --fail-on error"
+    "db:lint": "supabase db lint --local --schema public --fail-on error",
+    "momio:cli": "node --experimental-strip-types scripts/momio-naive-bayes-cli.ts",
+    "momio:demo": "node --experimental-strip-types scripts/momio-naive-bayes-cli.ts --demo"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",
